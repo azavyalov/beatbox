@@ -28,8 +28,9 @@ public class BeatBoxFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        /* true - сохраняем фрагмент при повороте экрана, . Фрагмент не будет уничтожаться,
-        а передастся новой активити в сохраненном состоянии */
+        /* Saving state of fragment after changing orientation. With true fragment won't destroy.
+         We make it because SoundPool is not Parcelable object so we can't save him using
+         onSaveInstanceState method */
         setRetainInstance(true);
         mBeatBox = new BeatBox(getActivity());
     }
@@ -45,6 +46,7 @@ public class BeatBoxFragment extends Fragment {
 
         binding.recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 3));
         binding.recyclerView.setAdapter(new SoundAdapter(mBeatBox.getSounds()));
+        binding.setViewModel(new SeekBarViewModel(mBeatBox));
         return binding.getRoot();
     }
 
