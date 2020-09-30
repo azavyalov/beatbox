@@ -20,11 +20,14 @@ public class BeatBox {
     private AssetManager mAssets;
     private List<Sound> mSounds = new ArrayList<>();
     private SoundPool mSoundPool;
+    private float mPlaybackSpeedRate;
+    private String mPlaybackSpeedLabel;
 
     public BeatBox(Context context) {
         this.mAssets = context.getAssets();
-        // Используем устаревший конструктор вместо SoundPool.Builder т.к. используем API 19
         mSoundPool = new SoundPool(MAX_SOUNDS, AudioManager.STREAM_MUSIC, 0);
+        setPlaybackSpeedRate(1.0f);
+        setPlaybackSpeedLabel(context.getString(R.string.playback_label));
         loadSounds();
     }
 
@@ -61,7 +64,7 @@ public class BeatBox {
         if (soundId == null) {
             return;
         }
-        mSoundPool.play(soundId, 1.0f, 1.0f, 1, 0, 1.0f);
+        mSoundPool.play(soundId, 1.0f, 1.0f, 1, 0, mPlaybackSpeedRate);
     }
 
     public List<Sound> getSounds() {
@@ -70,5 +73,21 @@ public class BeatBox {
 
     public void release() {
         mSoundPool.release();
+    }
+
+    public float getPlaybackSpeedRate() {
+        return mPlaybackSpeedRate;
+    }
+
+    public void setPlaybackSpeedRate(float mPlaybackSpeedRate) {
+        this.mPlaybackSpeedRate = mPlaybackSpeedRate;
+    }
+
+    public String getPlaybackSpeedLabel() {
+        return mPlaybackSpeedLabel;
+    }
+
+    public void setPlaybackSpeedLabel(String mPlaybackSpeedLabel) {
+        this.mPlaybackSpeedLabel = mPlaybackSpeedLabel;
     }
 }
